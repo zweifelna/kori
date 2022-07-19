@@ -52,11 +52,13 @@ def main():
     aiy.voice.tts.say('Bonjour, je raconte des histoires, voulez-vous en entendre une ?')
     with Board() as board:
         while True:
-            text = text.lower()
-            if 'oui' in text:
+            text1 = text1.lower()
+            if 'oui' in text1:
                 board.led.state = Led.BLINK
                 aiy.voice.tts.say('Il était une fois dans un royaume lointain...')
                 board.led.state = Led.OFF
+            elif 'non' in text1:
+                aiy.voice.tts.say('au revoir')
                 break
 
     with Board() as board:
