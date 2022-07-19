@@ -50,45 +50,53 @@ def main():
     client = CloudSpeechClient()
 
     aiy.voice.tts.say('Bonjour, je raconte des histoires, voulez-vous en entendre une ?')
-    with Board() as board:
-        while True:
-            text1 = text1.lower()
-            if 'oui' in text1:
-                board.led.state = Led.BLINK
-                aiy.voice.tts.say('Il était une fois dans un royaume lointain...')
-                board.led.state = Led.OFF
-            elif 'non' in text1:
-                aiy.voice.tts.say('au revoir')
-                break
+
 
     with Board() as board:
+        check = 0
         while True:
-            board.button.wait_for_press()
             board.led.state = Led.ON
+            board.button.wait_for_press()
 
+            text = client.recognize(language_code=args.language,
+                                    hint_phrases=hints)
+            if text is None:
+                logging.info('You said nothing.')
+                continue
 
-            text = text.lower()
-            if 'allume' in text:
-                board.led.state = Led.ON
-            elif 'éteins' in text:
-                board.led.state = Led.OFF
-            elif 'clignote' in text:
-                board.led.state = Led.BLINK
-            elif 'répète après moi' in text:
-                # Remove "repeat after me" from the text to be repeated
-                to_repeat = text.replace('répète après moi', '', 1)
-                aiy.voice.tts.say(to_repeat)
-            elif 'oui' in text:
-                board.led.state = Led.BLINK
-                aiy.voice.tts.say('Il était une fois dans un royaume lointain...')
-                board.led.state = Led.OFF
-            elif 'alouette' in text:
-                board.led.state = Led.BLINK
-                aiy.voice.tts.say('Gentille alouette')
-                board.led.state = Led.OFF
-            elif 'au revoir' in text:
-                aiy.voice.tts.say('au revoir')
-                break
+            while step == check:
+                
+                text = text.lower()
+                if 'oui' in text and step == 0:
+                    aiy.voice.tts.say('Il était une fois dans un royaume lointain...')
+                    aiy.voice.tts.say("Comment s'appelle le héro ?")
+                    step += 1
+                    break
+                elif step == 1:
+                    aiy.voice.tts.say("Le héro s'appelait "+text)
+                    aiy.voice.tts.say("Comment s'appelle son royaume ?")
+                    step += 1
+                    break
+                elif step == 2:
+                    aiy.voice.tts.say("Le royaume s'appelait "+text)
+                    aiy.voice.tts.say("Comment s'appelle son roi ?")
+                    step += 1
+                    break
+                elif step == 3:
+                    aiy.voice.tts.say("Le roi s'appelait "+text)
+                    aiy.voice.tts.say("Comment s'appelle son chat ?")
+                    step += 1
+                    break
+                elif step == 4:
+                    aiy.voice.tts.say("Le chat s'appelait "+text)
+                    aiy.voice.tts.say("Comment s'appelle son chien ?")
+                    step += 1
+                    break
+
+                
+                
+
+            check+=1
 
 if __name__ == '__main__':
     main()
