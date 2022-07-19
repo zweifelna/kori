@@ -43,28 +43,28 @@ def main():
     parser = argparse.ArgumentParser(description='Assistant service example.')
     parser.add_argument('--language', default=locale_language())
     args = parser.parse_args()
-    
+    step = 0
+
     logging.info('Initializing for language %s...', args.language)
     hints = get_hints(args.language)
     client = CloudSpeechClient()
 
     aiy.voice.tts.say('Bonjour, je raconte des histoires, voulez-vous en entendre une ?')
+    with Board() as board:
+        while True:
+            text = text.lower()
+            if 'oui' in text:
+                board.led.state = Led.BLINK
+                aiy.voice.tts.say('Il était une fois dans un royaume lointain...')
+                board.led.state = Led.OFF
+                break
 
     with Board() as board:
         while True:
             board.button.wait_for_press()
             board.led.state = Led.ON
-            if hints:
-                logging.info('Say something, e.g. %s.' % ', '.join(hints))
-            else:
-                logging.info('Say something.')
-            text = client.recognize(language_code=args.language,
-                                    hint_phrases=hints)
-            if text is None:
-                logging.info('You said nothing.')
-                continue
 
-            logging.info('You said: "%s"' % text)
+
             text = text.lower()
             if 'allume' in text:
                 board.led.state = Led.ON
