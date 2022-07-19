@@ -29,6 +29,7 @@ def get_hints(language_code):
                 'éteins',
                 'clignote',
 		'répète après moi',
+                'alouette',
                 'au revoir')
     return None
 
@@ -76,6 +77,10 @@ def main():
             elif 'oui' in text:
                 board.led.state = Led.BLINK
                 aiy.voice.tts.say('Il était une fois dans un royaume lointain...')
+                board.led.state = Led.OFF
+            elif 'alouette' in text:
+                board.led.state = Led.BLINK
+                aiy.voice.tts.say('Gentille alouette')
                 board.led.state = Led.OFF
             elif 'au revoir' in text:
                 aiy.voice.tts.say('au revoir')
