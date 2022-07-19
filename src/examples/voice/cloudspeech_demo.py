@@ -53,6 +53,7 @@ def main():
     with Board() as board:
         while True:
             board.button.wait_for_press()
+            board.led.state = Led.ON
             if hints:
                 logging.info('Say something, e.g. %s.' % ', '.join(hints))
             else:
