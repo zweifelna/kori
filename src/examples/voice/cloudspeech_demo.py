@@ -17,17 +17,19 @@
 import argparse
 import locale
 import logging
+import aiy.voice.tts
 
 from aiy.board import Board, Led
 from aiy.cloudspeech import CloudSpeechClient
 
 
 def get_hints(language_code):
-    if language_code.startswith('en_'):
-        return ('turn on the light',
-                'turn off the light',
-                'blink the light',
-                'goodbye')
+    if language_code.startswith('fr_'):
+        return ('allume',
+                'éteins',
+                'clignote',
+		'répète après moi',
+                'au revoir')
     return None
 
 def locale_language():
@@ -44,6 +46,9 @@ def main():
     logging.info('Initializing for language %s...', args.language)
     hints = get_hints(args.language)
     client = CloudSpeechClient()
+
+    aiy.voice.tts.say('Bonjour, je raconte des histoires, voulez-vous en entendre une ?')
+
     with Board() as board:
         while True:
             if hints:
@@ -58,13 +63,22 @@ def main():
 
             logging.info('You said: "%s"' % text)
             text = text.lower()
-            if 'turn on the light' in text:
+            if 'allume' in text:
                 board.led.state = Led.ON
-            elif 'turn off the light' in text:
+            elif 'éteins' in text:
                 board.led.state = Led.OFF
-            elif 'blink the light' in text:
+            elif 'clignote' in text:
                 board.led.state = Led.BLINK
-            elif 'goodbye' in text:
+            elif 'répète après moi' in text:
+                # Remove "repeat after me" from the text to be repeated
+                to_repeat = text.replace('répète après moi', '', 1)
+                aiy.voice.tts.say(to_repeat)
+            elif 'oui' in text:
+                board.led.state = Led.BLINK
+                aiy.voice.tts.say('Il était une fois dans un royaume lointain...')
+                board.led.state = Led.OFF
+            elif 'au revoir' in text:
+                aiy.voice.tts.say('au revoir')
                 break
 
 if __name__ == '__main__':

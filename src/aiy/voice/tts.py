@@ -28,7 +28,7 @@ import tempfile
 
 RUN_DIR = '/run/user/%d' % os.getuid()
 
-def say(text, lang='en-US', volume=60, pitch=130, speed=100, device='default'):
+def say(text, lang='fr-FR', volume=60, pitch=130, speed=100, device='default'):
     """
     Speaks the provided text.
 
@@ -57,7 +57,7 @@ def say(text, lang='en-US', volume=60, pitch=130, speed=100, device='default'):
 
 def _main():
     parser = argparse.ArgumentParser(description='Text To Speech (pico2wave)')
-    parser.add_argument('--lang', default='en-US')
+    parser.add_argument('--lang', default='fr-FR')
     parser.add_argument('--volume', type=int, default=60)
     parser.add_argument('--pitch', type=int, default=130)
     parser.add_argument('--speed', type=int, default=100)
