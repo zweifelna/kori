@@ -1,0 +1,102 @@
+#!/usr/bin/env python3
+# Copyright 2017 Google Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+"""A demo of the Google CloudSpeech recognizer."""
+import argparse
+import locale
+import logging
+import aiy.voice.tts
+
+from aiy.board import Board, Led
+from aiy.cloudspeech import CloudSpeechClient
+
+
+def get_hints(language_code):
+    if language_code.startswith('fr_'):
+        return ('allume',
+                'éteins',
+                'clignote',
+		'répète après moi',
+                'alouette',
+                'au revoir')
+    return None
+
+def locale_language():
+    language, _ = locale.getdefaultlocale()
+    return language
+
+def main():
+    logging.basicConfig(level=logging.DEBUG)
+
+    parser = argparse.ArgumentParser(description='Assistant service example.')
+    parser.add_argument('--language', default=locale_language())
+    args = parser.parse_args()
+    step = 0
+
+    logging.info('Initializing for language %s...', args.language)
+    hints = get_hints(args.language)
+    client = CloudSpeechClient()
+
+    aiy.voice.tts.say('Bonjour, je raconte des histoires, voulez-vous en entendre une ?')
+
+
+    with Board() as board:
+        check = 0
+        while True:
+            board.led.state = Led.ON
+            board.button.wait_for_press()
+
+            text = client.recognize(language_code=args.language,
+                                    hint_phrases=hints)
+            if text is None:
+                logging.info('You said nothing.')
+                continue
+
+            while step == check:
+                
+                text = text.lower()
+                if 'oui' in text and step == 0:
+                    aiy.voice.tts.say('Il était une fois dans un royaume lointain...')
+                    aiy.voice.tts.say("Comment s'appelle le héro ?")
+                    step += 1
+                    break
+                elif step == 1:
+                    aiy.voice.tts.say("Le héro s'appelait "+text)
+                    aiy.voice.tts.say("Comment s'appelle son royaume ?")
+                    step += 1
+                    break
+                elif step == 2:
+                    aiy.voice.tts.say("Le royaume s'appelait "+text)
+                    aiy.voice.tts.say("Comment s'appelle son roi ?")
+                    step += 1
+                    break
+                elif step == 3:
+                    aiy.voice.tts.say("Le roi s'appelait "+text)
+                    aiy.voice.tts.say("Comment s'appelle son chat ?")
+                    step += 1
+                    break
+                elif step == 4:
+                    aiy.voice.tts.say("Le chat s'appelait "+text)
+                    aiy.voice.tts.say("Comment s'appelle son chien ?")
+                    step += 1
+                    break
+
+                
+                
+
+            check+=1
+
+if __name__ == '__main__':
+    main()
