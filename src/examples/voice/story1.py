@@ -18,6 +18,7 @@ import argparse
 import locale
 import logging
 import aiy.voice.tts
+import time
 
 from aiy.board import Board, Led
 from aiy.cloudspeech import CloudSpeechClient
@@ -67,11 +68,15 @@ def main():
         while True:
             board.led.state = Led.ON
             board.button.wait_for_press()
-
+            board.led.state = Led.BLINK
             text = client.recognize(language_code=args.language,
                                     hint_phrases=hints)
+            # time.sleep(2)
+            
+            board.led.state = Led.OFF
+
             if text is None:
-                logging.info('You said nothing.')
+                aiy.voice.tts.say("Je n'ai pas compris, veuillez recommencer.")
                 continue
 
             while step == check:
@@ -90,8 +95,6 @@ def main():
                     break
                 elif step == 2:
                     while characterGender != 'garçon' and characterGender != 'un garçon' and characterGender != 'fille' and characterGender != 'une fille':
-                        # characterGender = text.replace('un', '', 1)
-                        # characterGender = text.replace('une', '', 1)
                         characterGender = text
                         if characterGender == 'garçon' or characterGender == 'un garçon':
                             characterPronom = 'il'
@@ -118,14 +121,31 @@ def main():
                     break
                 elif step == 4:
                     biome = text
-                    aiy.voice.tts.say("Le biome est "+text)
+                    while biome != 'desert' and biome != 'un desert' and biome != 'forêt' and biome != 'une forêt' and biome != 'lac' and biome != 'un lac':
+                        biome = text
+                        if biome == 'desert' or biome == 'un desert':
+                            aiy.voice.tts.say("Le village se trouve dans un désert")
+                            step += 1
+                            break
+                        elif biome == 'forêt' or biome == 'une forêt':
+                            aiy.voice.tts.say("Le village se trouve dans une forêt")
+                            step += 1
+                            break
+                        elif biome == 'lac' or biome == 'un lac':
+                            aiy.voice.tts.say("Le village se trouve dans un lac")
+                            step += 1
+                            break
+
+                        aiy.voice.tts.say("Je n'ai pas compris, le village se trouve-t-il vers un desert, une forêt ou un lac ?")
+                        break
+
                     aiy.voice.tts.say("Comment s'appelle l'ogre ?")
                     step += 1
                     break
                 elif step == 5:
                     ogreName = text
                     aiy.voice.tts.say("L'ogre s'appelle "+ogreName)
-                    aiy.voice.tts.say("Donne moi un adjectif qui décrit l'ogre".)
+                    aiy.voice.tts.say("Donne moi un adjectif qui décrit l'ogre.")
                     step += 1
                     break
                 elif step == 6:
