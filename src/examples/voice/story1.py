@@ -53,7 +53,7 @@ def main():
     friendGender = ''
     friendPronom = ''
     villageName = ''
-    locality = ''
+    animal = ''
     biome = ''
     ogreName = ''
     ogreAdjective = ''
@@ -179,12 +179,12 @@ def main():
                 elif step == 8:
                     ogreAdjective = text
                     aiy.voice.tts.say("L'ogre est "+ogreAdjective)
-                    aiy.voice.tts.say("Comment s'appelle le pays ou se déroule l'histoire ?")
+                    aiy.voice.tts.say("Donnez moi le nom d'un animal?")
                     step += 1
                     break
                 elif step == 9:
                     locality = text
-                    aiy.voice.tts.say("Le pays s'appelle "+locality)
+                    aiy.voice.tts.say("L'animal se nomme "+animal")
                     aiy.voice.tts.say("Merci pour ces informations, je vais créer l'histoire.")
                     aiy.voice.tts.say("Voulez-vous l'entendre ?")
                     step += 1
@@ -199,7 +199,8 @@ def main():
                             aiy.voice.tts.say("une petite "+characterGender+" pleine de vie.")
                         aiy.voice.tts.say(" "+characterPronom+" habitait dans le village de "+villageName+" dans le biome "+biome+" en "+locality+". Chaque jour, "+characterPronom+" voyait le soleil apparaître derrière la colline et "+characterPronom+" demandait à sa mère : Maman, qu'y a-t-il derrière cette colline ?" +". Derrière la colline, il y un biome "+biome+", un endroit qui n'est pas fait pour les enfants. Seuls les adultes peuvent s'y aventurer car c'est un monde dangereux pouur qui ne connaît pas ses secrets. Un jour, tu pourras toi aussi aller au-delà de la colline. Mais avant, il te faut grandir et écouter les anciens : ils ont beaucoup de choses à t'apprendre.")
                         aiy.voice.tts.say("Mais "+characterName+" n’écoutait jamais personne. "+characterPronom+" préférait jouer avec ses amis et n’en faire qu’à sa tête. Un jour, "+characterPronom+" s’aventura en dehors du village mais sa mère rattrapa son enfant et le ramena fermement par le bras en lui disant : Ne t’éloigne jamais plus, c’est beaucoup trop dangereux. Je vais te dire ce qu’il y a derrière la colline : il y a "+ogreName+", l’ogre "+ogreAdjective+" qui dévore les enfants perdus.")
-                        aiy.voice.tts.say("Malgré les avertissements de sa mère, "+characterName+" voulait à tout prix aller derrière la colline. Elle proposa à ses amies Yelpi et Mima de tenter l’aventure avec elle. Les deux fillettes se montrèrent peu enthousiastes à son idée.")
+                        aiy.voice.tts.say("Malgré les avertissements de sa mère, "+characterName+" voulait à tout prix aller derrière la colline. "+characterPronom+" proposa à son ami "+friendName+" de tenter l’aventure avec "+friendGender+". Son ami se montra peu enthousiaste à son idée. Nous sommes encore trop jeunes, dit "+friendName+", nous ne saurons pas nous débrouiller seules dans le désert. Et puis il y a "+ogreName+". Il est "+ogreAdjective+" et a déjà mangé des enfants tous crus. Vous n'êtes que des froussards dans ce village, se moqua "+characterName+". L'ogre "+ogreName+" ? Ce n'est qu'une histoire pour faire peur aux enfants ! Puisque c'est comme ça, j'irai seul")
+                        aiy.voice.tts.say("L’occasion se présenta quelques jours plus tard. Toutes les femmes du village étaient parties ramasser des oignons sauvages et les hommes étaient occupés à dresser des chevaux. "+characterName+" en profita pour se mettre en marche. Où vas-tu de si bon matin ? lui demanda un ancien, qui était assis sous un arbre. A la crique ! mentit "+characterName+". Ne va pas plus loin ! lui cria le vieil homme. "+characterName+" avait maintenant dépassé la crique et se trouvait face à la colline. Une énorme joie envahit son coeur : ça y est, se dit-"+characterPronom+" fièrement, je serai en haut de cette colline, et je verrai enfin ce qu’il y a derrière. Et "+characterPronom+" s’élança, d'un pas léger, à l’assaut du mont. Une volée d’oiseaux du "+biome+" salua son arrivée au sommet.")
 
 
                         step += 1
