@@ -49,6 +49,9 @@ def main():
     characterName = ''
     characterGender = ''
     characterPronom = ''
+    friendName = ''
+    friendGender = ''
+    friendPronom = ''
     villageName = ''
     locality = ''
     biome = ''
@@ -71,7 +74,6 @@ def main():
             board.led.state = Led.BLINK
             text = client.recognize(language_code=args.language,
                                     hint_phrases=hints)
-            # time.sleep(2)
             
             board.led.state = Led.OFF
 
@@ -110,16 +112,42 @@ def main():
                         aiy.voice.tts.say("Je n'ai pas compris, est-ce un garçon ou une fille ?")
                         break
                         
-                    aiy.voice.tts.say("Comment s'appelle le village ?")
+                    aiy.voice.tts.say("Comment s'appelle l'ami du personnage principal ?")
                     step += 1
                     break
                 elif step == 3:
+                    characterName = text
+                    aiy.voice.tts.say("Le personnage s'appelle"+friendName)
+                    aiy.voice.tts.say("Est-ce un garçon ou une fille ?")
+                    step += 1
+                    break
+                elif step == 4:
+                    while friendGender != 'garçon' and friendGender != 'un garçon' and friendGender != 'fille' and friendGender != 'une fille':
+                        friendGender = text
+                        if friendGender == 'garçon' or friendGender == 'un garçon':
+                            friendPronom = 'il'
+                            aiy.voice.tts.say("Le personnage est un garçon")
+                            step += 1
+                            break
+                        elif friendGender == 'fille' or friendGender == 'une fille':
+                            friendPronom = 'elle'
+                            aiy.voice.tts.say("Le personnage est une fille")
+                            step += 1
+                            break
+
+                        aiy.voice.tts.say("Je n'ai pas compris, est-ce un garçon ou une fille ?")
+                        break
+                        
+                    aiy.voice.tts.say("Comment s'appelle le village ?")
+                    step += 1
+                    break
+                elif step == 5:
                     villageName = text
                     aiy.voice.tts.say("Le village s'appelle "+villageName)
                     aiy.voice.tts.say("Le village se trouve vers un désert, une forêt ou un lac ?")
                     step += 1
                     break
-                elif step == 4:
+                elif step == 6:
                     biome = text
                     while biome != 'desert' and biome != 'un desert' and biome != 'forêt' and biome != 'une forêt' and biome != 'lac' and biome != 'un lac':
                         biome = text
@@ -142,26 +170,26 @@ def main():
                     aiy.voice.tts.say("Comment s'appelle l'ogre ?")
                     step += 1
                     break
-                elif step == 5:
+                elif step == 7:
                     ogreName = text
                     aiy.voice.tts.say("L'ogre s'appelle "+ogreName)
                     aiy.voice.tts.say("Donne moi un adjectif qui décrit l'ogre.")
                     step += 1
                     break
-                elif step == 6:
+                elif step == 8:
                     ogreAdjective = text
                     aiy.voice.tts.say("L'ogre est "+ogreAdjective)
                     aiy.voice.tts.say("Comment s'appelle le pays ou se déroule l'histoire ?")
                     step += 1
                     break
-                elif step == 7:
+                elif step == 9:
                     locality = text
                     aiy.voice.tts.say("Le pays s'appelle "+locality)
                     aiy.voice.tts.say("Merci pour ces informations, je vais créer l'histoire.")
                     aiy.voice.tts.say("Voulez-vous l'entendre ?")
                     step += 1
                     break
-                elif step == 8:
+                elif step == 10:
                     if 'oui' in text:
                         aiy.voice.tts.say("Très bien.")
                         aiy.voice.tts.say("Il était une fois "+characterName)
@@ -171,8 +199,8 @@ def main():
                             aiy.voice.tts.say("une petite "+characterGender+" pleine de vie.")
                         aiy.voice.tts.say(" "+characterPronom+" habitait dans le village de "+villageName+" dans le biome "+biome+" en "+locality+". Chaque jour, "+characterPronom+" voyait le soleil apparaître derrière la colline et "+characterPronom+" demandait à sa mère : Maman, qu'y a-t-il derrière cette colline ?" +". Derrière la colline, il y un biome "+biome+", un endroit qui n'est pas fait pour les enfants. Seuls les adultes peuvent s'y aventurer car c'est un monde dangereux pouur qui ne connaît pas ses secrets. Un jour, tu pourras toi aussi aller au-delà de la colline. Mais avant, il te faut grandir et écouter les anciens : ils ont beaucoup de choses à t'apprendre.")
                         aiy.voice.tts.say("Mais "+characterName+" n’écoutait jamais personne. "+characterPronom+" préférait jouer avec ses amis et n’en faire qu’à sa tête. Un jour, "+characterPronom+" s’aventura en dehors du village mais sa mère rattrapa son enfant et le ramena fermement par le bras en lui disant : Ne t’éloigne jamais plus, c’est beaucoup trop dangereux. Je vais te dire ce qu’il y a derrière la colline : il y a "+ogreName+", l’ogre "+ogreAdjective+" qui dévore les enfants perdus.")
-                        
-                    
+                        aiy.voice.tts.say("Malgré les avertissements de sa mère, "+characterName+" voulait à tout prix aller derrière la colline. Elle proposa à ses amies Yelpi et Mima de tenter l’aventure avec elle. Les deux fillettes se montrèrent peu enthousiastes à son idée.")
+
 
                         step += 1
                         break
