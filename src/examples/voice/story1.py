@@ -172,7 +172,6 @@ def main():
                         break
 
                     aiy.voice.tts.say("Comment s'appelle l'ogre ?")
-                    step += 1
                     break
                 elif step == 7:
                     ogreName = text
@@ -208,6 +207,7 @@ def main():
 
                         aiy.voice.tts.say(" J'espère que l'histoire vous a plus. J'envoie l'histoire sur l'application comme ça vous pourrez l'écouter plus tard. Voulez-vous recommencer ?")
                         step = 0
+                        check = -1
                         break
                     elif 'non' in text:
                         aiy.voice.tts.say("Je vais créer l'histoire pour vous et vous pourrez l'écouter plus tard. Voulez-vous recommencer ?")
