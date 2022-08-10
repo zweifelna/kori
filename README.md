@@ -1,4 +1,4 @@
-#Kori
+# Kori
 
 Kori is an interface mixing tangible and voice elements to let children create stories at school.
 
