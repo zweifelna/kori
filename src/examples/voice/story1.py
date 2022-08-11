@@ -24,16 +24,6 @@ from aiy.board import Board, Led
 from aiy.cloudspeech import CloudSpeechClient
 
 
-def get_hints(language_code):
-    if language_code.startswith('fr_'):
-        return ('allume',
-                'éteins',
-                'clignote',
-		'répète après moi',
-                'alouette',
-                'au revoir')
-    return None
-
 def locale_language():
     language, _ = locale.getdefaultlocale()
     return language
@@ -214,12 +204,7 @@ def main():
                         step = 0
                         break
                     break
-                # elif step == 11:
-                #     aiy.voice.tts.say(" J'espère que l'histoire vous a plus. J'envoie l'histoire sur l'application comme ça vous pourrez l'écouter plus tard. Voulez-vous recommencer ?")
-                #     step = 0
-                #     break
 
-                
                 
 
             check+=1
