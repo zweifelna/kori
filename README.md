@@ -1,3 +1,12 @@
+# Kori
+
+Kori is an interface mixing tangible and voice elements to let children create stories at school.
+
+Most of the files is from a fork of the AIY Projects (description below), and the script used for user testing is
+named story1.py and is in the AIY-project/src/examples/voice repository.
+
+The script starts directly at startup, but it is also possible to run it with python3 story1.py --language="fr-FR" (from the folder mentioned before)
+
 # AIY Projects
 
 This repository contains an easy-to-use Python API for the [AIY Vision Kit][aiy-vision]
